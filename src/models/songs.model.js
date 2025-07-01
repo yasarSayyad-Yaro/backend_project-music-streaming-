@@ -10,14 +10,10 @@ const songSchema=new mongoose.Schema(
             lowercase:true,
             index:true
         },
-        artist:{
+        artistDisplayName:{
             type:mongoose.Schema.Types.ObjectId,
             ref:"User",
             required:true
-        },
-        album:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"Album"
         },
         genre:{
             type:String,

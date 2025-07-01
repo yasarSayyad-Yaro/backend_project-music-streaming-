@@ -37,7 +37,7 @@ const registerUser=asyncHandler(async(req,res)=>{
         throw new ApiError(400,"User already exist with username or email")
     }
 
-    const avatarLocalPath=req.files?.avatar[0]?.path
+    const avatarLocalPath=req.file?.path
     if(!avatarLocalPath){
         throw new ApiError(400,"Avatar image is required")
     }
@@ -55,7 +55,7 @@ const registerUser=asyncHandler(async(req,res)=>{
         avatar:avatar.url,
     })
 
-    const createduser=await User.findById(user._id).select("-password -refreshToken")
+    const createduser=await User.findById(user._id).select("-password -refreshToken -isAdmin")
 
     if(!createduser){
         throw new ApiError(500,"Something went wrong while creating user")
@@ -69,7 +69,7 @@ const registerUser=asyncHandler(async(req,res)=>{
 const loginUser=asyncHandler(async(req,res)=>{
     const {username,email,password}=req.body
 
-    if(!username||!email){
+    if(!username&&!email){
         throw new ApiError(400,"Either username or email is required")
     }
 
@@ -81,7 +81,7 @@ const loginUser=asyncHandler(async(req,res)=>{
         throw new ApiError(404,"username or email does not exist")
     }
 
-    const ispasswordValid=await user.ispasswordValid(password)
+    const ispasswordValid=await user.isPasswordCorrect(password)
 
     if(!ispasswordValid){
         throw new ApiError(400,"Invalid password")
@@ -89,7 +89,7 @@ const loginUser=asyncHandler(async(req,res)=>{
 
     const {AccesToken,Refreshtoken}=await generateAccessTokenAndRefreshToken(user._id)
 
-    const loggedInUser=await User.findById(user._id).select("-password -refreshToken")
+    const loggedInUser=await User.findById(user._id).select("-password -refreshToken -isAdmin")
 
     const options={
         httpOnly:true,
@@ -283,7 +283,7 @@ const requestArtistRole=asyncHandler(async(req,res)=>{
         {
             new:true
         }
-    ).select("-password -refreshToken")
+    ).select("-password -refreshToken -isAdmin")
 
     return res
     .status(200)

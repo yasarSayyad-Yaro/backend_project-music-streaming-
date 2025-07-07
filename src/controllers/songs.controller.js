@@ -155,7 +155,7 @@ const updateSongDetails=asyncHandler(async(req,res)=>{
     const coverImagePath=req.file?.path
 
     if(coverImagePath){
-        const coverImage=await uploadOnCloudinary(coverImagepath)
+        const coverImage=await uploadOnCloudinary(coverImagePath)
 
         if(!coverImage.url){
         throw new ApiError(500,"error while uplloading on cloudinary")

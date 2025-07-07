@@ -11,8 +11,8 @@ const songSchema=new mongoose.Schema(
             index:true
         },
         artistDisplayName:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"User",
+            type:String,
+            trim:true,
             required:true
         },
         genre:{

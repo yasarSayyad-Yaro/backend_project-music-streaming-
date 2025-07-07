@@ -26,10 +26,22 @@ app.use(cookieParser())
 
 import userRouter from "./routes/user.routes.js"
 import adminRouter from "./routes/admin.routes.js"
+import albumRouter from "./routes/album.routes.js"
+import songRouter from "./routes/song.router.js"
+import likeRouter from "./routes/like.routes.js"
+import playlistRouter from "./routes/playlist.routes.js"
 
 app.use("/api/v1/users",userRouter)
 
 app.use("/api/v1/security/admin",adminRouter)
+
+app.use("/api/v1/songs",songRouter)
+
+app.use("/api/v1/albums",albumRouter)
+
+app.use("/api/v1/likes",likeRouter)
+
+app.use("/api/v1/playlists",playlistRouter)
 
 
 export {app} 
